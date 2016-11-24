@@ -2,7 +2,7 @@
 
 <p>With BOSH it is easy to scale deployments. All you need to do is modify number of instances in manifest file.</p>
 
-<p>Open <b>manifest.yml</b> and change number of instances under job from 1 to 2. Add another IP to list of job static IPs: 10.244.0.6.</p>
+<p>Open <b>bosh-lite-v2.yml</b> and change number of instances</p>
 
 <p>Run deploy:</p>
 
@@ -35,8 +35,8 @@ VMs total: 2
 <p>See that we have 2 instances of our service running:</p>
 
 <div class="terminal-block">
-  <h4 class="terminal-code-text">$ curl 10.244.0.2:8080</h4>
+  <h4 class="terminal-code-text">$ curl ip1:8080</h4>
   <h4 class="terminal-printout-text">Hello, you from &lt;uuid-1&gt;</h4>
-  <h4 class="terminal-code-text">$ curl 10.244.0.6:8080</h4>
+  <h4 class="terminal-code-text">$ curl ip2:8080</h4>
   <h4 class="terminal-printout-text">Hello, you from &lt;uuid-2&gt;</h4>
 </div>

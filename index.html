@@ -138,7 +138,7 @@
 <p>We are going to use a simple BOSH release that deploys a sinatra server.</p>
 
 <div class="terminal-block">
-  <h4 class="terminal-code-text">$ git clone https://github.com/mariash/learn-bosh-release learn-bosh-release</h4>
+  <h4 class="terminal-code-text">$ git clone https://github.com/shinji62/learn-bosh-release learn-bosh-release</h4>
   <h4 class="terminal-code-text">$ cd learn-bosh-release</h4>
   <h4 class="terminal-code-text">$ bosh create release</h4>
 </div>
@@ -182,7 +182,7 @@ Releases total: 1
 
 <p>Deployment manifest specifies what services to deploy, their properties and resources configuration. The manifest contains a placeholder <b>director_uuid</b> that needs replacing.</p>
 
-<p>Update the <b>director_uuid</b> value in the <b>manifest.yml</b> with the value from:</p>
+<p>Update the <b>director_uuid</b> value in the <b>templates/bosh-lite-v2.yml</b> with the value from:</p>
 
 <div class='terminal-block'>
   <h4 class="terminal-code-text">$ bosh status --uuid</h4>
@@ -191,8 +191,8 @@ Releases total: 1
 <p>Set the deployment manifest:</p>
 
 <div class="terminal-block">
-  <h4 class="terminal-code-text">$ bosh deployment manifest.yml</h4>
-  <h4 class="terminal-printout-text">Deployment set to '..learn-bosh-release/manifest.yml'</h4>
+  <h4 class="terminal-code-text">$ bosh deployment templates/bosh-lite-v2.yml</h4>
+  <h4 class="terminal-printout-text">Deployment set to '..learn-bosh-release/templates/bosh-lite-v2.yml'</h4>
 </div>
 
 <p>Learn more:
@@ -217,8 +217,7 @@ Releases total: 1
 <p>Upload stemcell to <b>Director</b>.</p>
 
 <div class="terminal-block">
-  <h4 class="terminal-code-text">$ wget --content-disposition https://bosh.io/d/stemcells/bosh-warden-boshlite-ubuntu-trusty-go_agent</h4>
-  <h4 class="terminal-code-text">$ bosh upload stemcell bosh-stemcell-3147-warden-boshlite-ubuntu-trusty-go_agent.tgz</h4>
+  <h4 class="terminal-code-text">$ bosh upload stemcell https://bosh.io/d/stemcells/bosh-warden-boshlite-ubuntu-trusty-go_agent</h4>
 </div>
 
 <p>See uploaded stemcells:</p>
@@ -230,7 +229,7 @@ Releases total: 1
 +---------------------------------------------+---------+
 | Name                                        | Version |
 +---------------------------------------------+---------+
-| bosh-warden-boshlite-ubuntu-trusty-go_agent | 3147    |
+| bosh-warden-boshlite-ubuntu-trusty-go_agent | XXXX    |
 +---------------------------------------------+---------+
 
 (*) Currently in-use
@@ -344,7 +343,7 @@ Stemcells total: 1</h4>
 
 <p>With BOSH it is easy to scale deployments. All you need to do is modify number of instances in manifest file.</p>
 
-<p>Open <b>manifest.yml</b> and change number of instances under job from 1 to 2. Add another IP to list of job static IPs: 10.244.0.6.</p>
+<p>Open <b>bosh-lite-v2.yml</b> and change number of instances</p>
 
 <p>Run deploy:</p>
 
@@ -377,9 +376,9 @@ VMs total: 2
 <p>See that we have 2 instances of our service running:</p>
 
 <div class="terminal-block">
-  <h4 class="terminal-code-text">$ curl 10.244.0.2:8080</h4>
+  <h4 class="terminal-code-text">$ curl ip1:8080</h4>
   <h4 class="terminal-printout-text">Hello, you from &lt;uuid-1&gt;</h4>
-  <h4 class="terminal-code-text">$ curl 10.244.0.6:8080</h4>
+  <h4 class="terminal-code-text">$ curl ip2:8080</h4>
   <h4 class="terminal-printout-text">Hello, you from &lt;uuid-2&gt;</h4>
 </div></div></div>
     
@@ -466,7 +465,7 @@ System 'system_ec1f1ae3-80cb-448b-a024-a24985271f76' running
 
 <p>What if there is a problem with VM that is running our service? BOSH offers manual and automatic recovery when there are problems with infrastructure resources. In this exercise we are going to kill our VM and use manual recovery option.</p>
 
-<p>Kill one of VMs. bosh-lite is using <b>Warden</b> to manage deployments. Warden is a Linux container management tool. Each container represents one VM. On vagrant VM kill one of Warden containers:</p>
+<p>Kill one of VMs. bosh-lite is using <b>Garden</b> to manage deployments. Garden is a Linux container management tool. Each container represents one VM. On vagrant VM kill one of Warden containers:</p>
 
 <div class="terminal-block">
   <h4 class="terminal-code-text">$ vagrant ssh</h4>
@@ -509,6 +508,7 @@ System 'system_ec1f1ae3-80cb-448b-a024-a24985271f76' running
 <ul>
 <li><a href="http://bosh.io/docs/resurrector.html">bosh.io: Automatic repair with Resurrector</a></li>
 <li><a href="http://bosh.io/docs/cck.html">bosh.io: Manual repair with Cloud Check</a></li>
+<li><a href="http://bosh.io/docs/vm-config.html">bosh.io: Configuration and file locations of BOSH VMs</a></li>
 </p>
 </div></div>
     
@@ -538,8 +538,7 @@ System 'system_ec1f1ae3-80cb-448b-a024-a24985271f76' running
   instances: 1
   resource_pool: default
   networks:
-  - name: default
-    static_ips: [10.244.0.10]</h4>
+  - name: default</h4>
 </div>
 
 <p>Re-deploy with new job.</p>

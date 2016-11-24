@@ -2,7 +2,7 @@
 
 <p>Deployment manifest specifies what services to deploy, their properties and resources configuration. The manifest contains a placeholder <b>director_uuid</b> that needs replacing.</p>
 
-<p>Update the <b>director_uuid</b> value in the <b>manifest.yml</b> with the value from:</p>
+<p>Update the <b>director_uuid</b> value in the <b>templates/bosh-lite-v2.yml</b> with the value from:</p>
 
 <div class='terminal-block'>
   <h4 class="terminal-code-text">$ bosh status --uuid</h4>
@@ -11,8 +11,8 @@
 <p>Set the deployment manifest:</p>
 
 <div class="terminal-block">
-  <h4 class="terminal-code-text">$ bosh deployment manifest.yml</h4>
-  <h4 class="terminal-printout-text">Deployment set to '..learn-bosh-release/manifest.yml'</h4>
+  <h4 class="terminal-code-text">$ bosh deployment templates/bosh-lite-v2.yml</h4>
+  <h4 class="terminal-printout-text">Deployment set to '..learn-bosh-release/templates/bosh-lite-v2.yml'</h4>
 </div>
 
 <p>Learn more:
